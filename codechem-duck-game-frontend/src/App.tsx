@@ -90,17 +90,16 @@ function App() {
   };
 
   const renderCell = (cell: string, isPlayer: boolean) => {
-    let src = "src/assets/empty.png";
-    if (cell === "#") src = "src/assets/wall.png";
-    if (cell === "L") src = "src/assets/lava.png";
-    if (cell === "W") src = "src/assets/water.png";
-    if (cell === "G") src = "src/assets/finish.png";
-    if (cell === "B") src = "src/assets/box.png";
-    if (isPlayer && cell == "W") src = "src/assets/player-water.png";
-    if (isPlayer && cell == "#") src = "src/assets/player-wall.png";
-    if (isPlayer && cell == "L") src = "src/assets/player-lava.png";
-    if (isPlayer && (cell == "." || cell == "C"))
-      src = "src/assets/player-empty.png";
+    let src = "./empty.png";
+    if (cell === "#") src = "./wall.png";
+    if (cell === "L") src = "./lava.png";
+    if (cell === "W") src = "./water.png";
+    if (cell === "G") src = "./finish.png";
+    if (cell === "B") src = "./box.png";
+    if (isPlayer && cell == "W") src = "./player-water.png";
+    if (isPlayer && cell == "#") src = "./player-wall.png";
+    if (isPlayer && cell == "L") src = "./player-lava.png";
+    if (isPlayer && (cell == "." || cell == "C")) src = "./player-empty.png";
 
     return <img src={src} alt="" />;
   };
@@ -136,8 +135,11 @@ function App() {
               boring i wasnt that creative. Maybe it has few bugs but i forgot
               all the requirements :D. It is hosted on my home ngnix server and
               the frontend and the backend are dockerized within docker compose.
+              Honestly i learned so much from this experience XD.
             </div>
-            <a href="#">Here is the link to the source code on my GitHub</a>
+            <a href="https://github.com/zhivko-kocev/duck-game" target="blank_">
+              Here is the link to the source code on my GitHub
+            </a>
           </div>
         </div>
         <div className="game">{renderGrid()}</div>

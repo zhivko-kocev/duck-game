@@ -1,0 +1,28 @@
+services:
+  backend:
+    build:
+      context: ./codechem-duck-game
+      dockerfile: Dockerfile
+    container_name: duck-game-backend
+    ports:
+      - "8080:8080"
+    networks:
+      - duck-game-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:h2:mem:testdb
+
+  frontend:
+    build:
+      context: ./codechem-duck-game-frontend
+      dockerfile: Dockerfile
+    container_name: duck-game-frontend
+    ports:
+      - "5137:80"
+    depends_on:
+      - backend
+    networks:
+      - duck-game-network
+
+networks:
+  duck-game-network:
+    driver: bridge
