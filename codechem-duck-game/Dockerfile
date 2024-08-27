@@ -4,6 +4,8 @@ FROM openjdk:21
 # Set the working directory in the container
 WORKDIR /app
 
+RUN ./mvnw package && java -jar target/duck-game-docker.jar
+
 # Copy the jar file from the build
 COPY target/codechem-duck-game-0.0.1-SNAPSHOT.jar app.jar
 
