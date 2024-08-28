@@ -5,8 +5,6 @@ import com.example.codechemduckgame.model.Move;
 import com.example.codechemduckgame.service.GameService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-
 @RestController
 @CrossOrigin
 @RequestMapping("/api/game")
@@ -19,7 +17,7 @@ public class GameController {
     }
 
     @GetMapping("/start/{lvlNum}")
-    public Game test(@PathVariable String lvlNum) {
+    public Game start(@PathVariable String lvlNum) {
         return gameService.start(Integer.parseInt(lvlNum));
     }
 

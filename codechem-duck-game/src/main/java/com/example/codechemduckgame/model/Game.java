@@ -42,10 +42,12 @@ public class Game {
     }
 
     public Game move(int x, int y) {
+
         String[][] copy = new String[board.length][];
         for (int i = 0; i < board.length; i++) {
             copy[i] = board[i].clone();
         }
+
         boardHistory.push(copy);
         playerHistory.push(this.player.clone());
 
@@ -66,7 +68,8 @@ public class Game {
         }
 
         if (isBox(player[0], player[1])) {
-            if (board[player[0] + x][player[1] + y].equals("B") || board[player[0] + x][player[1] + y].equals("#") || board[player[0] + x][player[1] + y].equals("G")) {
+            if (board[player[0] + x][player[1] + y].equals("B") || board[player[0] + x][player[1] + y].equals("#")
+                    || board[player[0] + x][player[1] + y].equals("G")) {
                 player = playerHistory.pop();
                 board = boardHistory.pop();
                 return this;

@@ -27,7 +27,7 @@ public class GameService {
         return game.undo();
     }
 
-    public Game loadGame(int lvlNum) {
+    private Game loadGame(int lvlNum) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream("data/level" + lvlNum + ".json");
