@@ -42,7 +42,7 @@ function App() {
   const fetchData = async () => {
     try {
       const { data: response } = await axios.get<Game>(
-        "/api/game/start/" + level
+        "http://192.168.0.107/api/game/start/" + level
       );
       setData(response);
     } catch (error) {
@@ -52,9 +52,12 @@ function App() {
 
   const move = async (dir: number[]) => {
     try {
-      const { data: response } = await axios.post<Game>(`/api/game/move`, {
-        direction: dir,
-      });
+      const { data: response } = await axios.post<Game>(
+        `http://192.168.0.107/api/game/move`,
+        {
+          direction: dir,
+        }
+      );
       setData(response);
     } catch (error) {
       console.error(error);
@@ -63,7 +66,9 @@ function App() {
 
   const undo = async () => {
     try {
-      const { data: response } = await axios.get<Game>(`/api/game/undo`);
+      const { data: response } = await axios.get<Game>(
+        `http://192.168.0.107/api/game/undo`
+      );
       setData(response);
     } catch (error) {
       console.error(error);
