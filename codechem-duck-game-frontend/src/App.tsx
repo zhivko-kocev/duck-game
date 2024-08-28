@@ -42,7 +42,7 @@ function App() {
   const fetchData = async () => {
     try {
       const { data: response } = await axios.get<Game>(
-        "http://localhost/api/game/start/" + level
+        "http://localhost:8080/api/game/start/" + level
       );
       setData(response);
     } catch (error) {
