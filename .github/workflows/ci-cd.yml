@@ -44,5 +44,5 @@ jobs:
       - name: Deploy to AKS
         run: |
           kubectl apply -f k8s/
-          kubectl rollout status deployment/duck-game-backend
-          kubectl rollout status deployment/duck-game-frontend
+          kubectl rollout status deployment/backend
+          kubectl rollout status deployment/frontend
