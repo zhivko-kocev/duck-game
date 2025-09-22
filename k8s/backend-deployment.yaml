@@ -24,7 +24,7 @@ spec:
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
               value: update
           image: backend
-          name: duck-game-backend
+          name: backend
           ports:
             - containerPort: 8080
               protocol: TCP
