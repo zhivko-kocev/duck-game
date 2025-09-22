@@ -9,7 +9,9 @@ services:
     networks:
       - duck-game-network
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:h2:mem:testdb
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - db
 
   frontend:
     build:
@@ -23,6 +25,24 @@ services:
     networks:
       - duck-game-network
 
+  db:
+    image: postgres:16
+    container_name: duck-game-db
+    restart: always
+    environment:
+      - POSTGRES_DB=duckgame
+      - POSTGRES_USER=duckuser
+      - POSTGRES_PASSWORD=duckpass
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - duck-game-network
+
 networks:
   duck-game-network:
     driver: bridge
+
+volumes:
+  db_data:

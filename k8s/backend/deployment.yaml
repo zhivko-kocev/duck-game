@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: duck-game-backend
+  namespace: duck-game
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: duck-game-backend
+  template:
+    metadata:
+      labels:
+        app: duck-game-backend
+    spec:
+      containers:
+        - name: backend
+          image: kocew/duck-game-backend:latest
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: duck-game-config

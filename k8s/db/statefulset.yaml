@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: duck-game-db
+  namespace: duck-game
+spec:
+  serviceName: duck-game-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: duck-game-db
+  template:
+    metadata:
+      labels:
+        app: duck-game-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
