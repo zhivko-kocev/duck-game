@@ -26,6 +26,7 @@ Follow these instructions to get the game up and running on your local machine.
    ```bash
    docker-compose up --build
 4. **Open your browser and go to:**
-    
+
+
    [http://localhost:1537](http://localhost:1537)
     
