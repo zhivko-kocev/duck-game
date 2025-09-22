@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: duck-game-config
-  namespace: duck-game
-data:
-  SPRING_JPA_HIBERNATE_DDL_AUTO: update

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.version: 1.37.0 (fb0539e64)
+  labels:
+    io.kompose.service: frontend
+  name: frontend
+spec:
+  type: LoadBalancer
+  ports:
+    - name: "5137"
+      port: 5137
+      targetPort: 80
+  selector:
+    io.kompose.service: frontend
