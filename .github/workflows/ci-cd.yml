@@ -1,48 +1,41 @@
-name: Deploy Duck Game to AKS (Docker Hub)
+name: Deploy Duck Game to Azure Linux VM (Docker Compose)
 
 on:
-  workflow_dispatch:
   push:
     branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Azure Login
-        uses: azure/login@v2
+      - name: Deploy to Azure VM
+        uses: appleboy/ssh-action@v0.1.7
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          host: ${{ secrets.AZURE_VM_HOST }}
+          username: azureuser
+          key: ${{ secrets.AZURE_VM_SSH_KEY }}
+          script: |
+            # Folder where the project will live
+            PROJECT_DIR=~/duck-game
 
-      - name: Docker Hub Login
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+            # Clone repo if it doesn't exist
+            if [ ! -d "$PROJECT_DIR" ]; then
+              git clone https://github.com/${{ github.repository }} $PROJECT_DIR
+            fi
 
-      - name: Build & Push Backend
-        run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/duck-game-backend:latest ./codechem-duck-game
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/duck-game-backend:latest
+            cd $PROJECT_DIR
 
-      - name: Build & Push Frontend
-        run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/duck-game-frontend:latest ./codechem-duck-game-frontend
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/duck-game-frontend:latest
+            # Pull latest changes
+            git reset --hard
+            git clean -fd
+            git pull
 
-      - name: Get AKS Credentials
-        run: |
-          az aks get-credentials \
-            --resource-group demo-projects \
-            --name duck-game \
-            --overwrite-existing
+            # Stop running containers
+            docker-compose down
 
-      - name: Deploy to AKS
-        run: |
-          kubectl apply -f k8s/
-          kubectl rollout status deployment/backend
-          kubectl rollout status deployment/frontend
+            # Build and start containers
+            docker-compose up -d --build
