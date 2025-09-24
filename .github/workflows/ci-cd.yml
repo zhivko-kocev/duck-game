@@ -37,5 +37,6 @@ jobs:
           key: ${{ secrets.VM_KEY }}
           script: |
             cd /home/azureuser/duck-game
+            docker-compose down
             docker-compose pull
             docker-compose up -d
