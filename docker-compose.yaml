@@ -1,48 +1,26 @@
+version: '3.8'
+
 services:
-  backend:
-    build:
-      context: ./codechem-duck-game
-      dockerfile: Dockerfile
-    container_name: duck-game-backend
-    ports:
-      - "8080:8080"
-    networks:
-      - duck-game-network
+  db:
+    image: postgres:16
+    restart: always
     environment:
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      POSTGRES_DB: duckgame
+      POSTGRES_USER: duckuser
+      POSTGRES_PASSWORD: duckpass
+    volumes:
+      - /tmp/db_data:/var/lib/postgresql/data
+
+  backend:
+    image: kocew/duck-game-backend:latest
+    environment:
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
     depends_on:
       - db
 
   frontend:
-    build:
-      context: ./codechem-duck-game-frontend
-      dockerfile: Dockerfile
-    container_name: duck-game-frontend
-    ports:
-      - "5137:80"
+    build: ./codechem-duck-game-frontend
     depends_on:
       - backend
-    networks:
-      - duck-game-network
-
-  db:
-    image: postgres:16
-    container_name: duck-game-db
-    restart: always
-    environment:
-      - POSTGRES_DB=duckgame
-      - POSTGRES_USER=duckuser
-      - POSTGRES_PASSWORD=duckpass
-    volumes:
-      - db_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
-    networks:
-      - duck-game-network
-
-networks:
-  duck-game-network:
-    driver: bridge
-
-volumes:
-  db_data:
+      - "80:80"
