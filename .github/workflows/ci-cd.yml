@@ -36,6 +36,6 @@ jobs:
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_KEY }}
           script: |
-            cd /home/your-user/duck-game
+            cd /home/azureuser/duck-game
             docker-compose pull
             docker-compose up -d
